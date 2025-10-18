@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Sistema profissional de e-commerce com painel administrativo, controle de estoque e faturamento automático. Desenvolvido por João Layon.">
+    <meta property="og:title" content="UpComercce - Sistema de E-commerce Profissional">
+    <meta property="og:description" content="Tenha sua loja online completa — rápida, segura e pronta para vender! Sistema profissional desenvolvido por João Layon.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#007BFF">
+    <title>UpComercce - Sistema de E-commerce Profissional | João Layon</title>
+    <link rel="icon" type="image/png" href="attached_assets/generated_images/UpComercce_e-commerce_logo_icon_c4c07768.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #007BFF;
+            --primary-dark: #0056b3;
+            --primary-light: #4da3ff;
+            --white: #FFFFFF;
+            --dark-bg: #0a0a0a;
+            --dark-card: #1a1a1a;
+            --dark-border: #2a2a2a;
+            --text-gray: #b0b0b0;
+            --text-light: #e0e0e0;
+            --success: #00d084;
+            --warning: #ffa500;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--dark-bg);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.875rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: clamp(1.1rem, 4vw, 1.5rem);
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav {
+            display: none;
+            gap: 1.5rem;
+        }
+
+        nav.active {
+            display: flex;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+            flex-direction: column;
+            padding: 2rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        nav a:hover, nav a:active {
+            color: var(--primary-light);
+        }
+
+        .cta-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            padding: 0.625rem 1.25rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            white-space: nowrap;
+            display: none;
+        }
+
+        .cta-header:hover, .cta-header:active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 123, 255, 0.5);
+        }
+
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 1rem 3rem;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 123, 255, 0.12) 0%, var(--dark-bg) 70%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(0, 123, 255, 0.02) 40px, rgba(0, 123, 255, 0.02) 80px);
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 950px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 123, 255, 0.1);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.75rem, 7vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.25rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: clamp(0.95rem, 3vw, 1.15rem);
+            transition: all 0.3s;
+            box-shadow: 0 6px 25px rgba(0, 123, 255, 0.4);
+            min-height: 50px;
+            text-align: center;
+        }
+
+        .cta-primary:hover, .cta-primary:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 123, 255, 0.6);
+        }
+
+        .cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: clamp(0.95rem, 3vw, 1.15rem);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            min-height: 50px;
+        }
+
+        .cta-secondary:hover, .cta-secondary:active {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+        }
+
+        .social-proof {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-proof-avatars {
+            display: flex;
+        }
+
+        .social-proof-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid var(--dark-bg);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-left: -8px;
+        }
+
+        .social-proof-avatar:first-child {
+            margin-left: 0;
+        }
+
+        .social-proof-text {
+            color: var(--text-light);
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+        }
+
+        .social-proof-text strong {
+            color: var(--primary-light);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-weight: 800;
+            color: var(--primary-light);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+        }
+
+        /* Sections */
+        section {
+            padding: 3.5rem 1rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: rgba(0, 123, 255, 0.1);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 6vw, 2.75rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 3vw, 1.15rem);
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            margin: 2.5rem 0;
+        }
+
+        .feature-item {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(0, 123, 255, 0.02));
+            border: 1px solid rgba(0, 123, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 16px;
+            display: flex;
+            gap: 1rem;
+            transition: all 0.3s;
+        }
+
+        .feature-item:active {
+            transform: scale(0.98);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .feature-content h3 {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-content p {
+            color: var(--text-gray);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            line-height: 1.5;
+        }
+
+        .mockup-container {
+            background: linear-gradient(135deg, var(--dark-card), #1f1f1f);
+            border: 1px solid var(--dark-border);
+            border-radius: 16px;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            margin: 2.5rem 0;
+        }
+
+        .mockup-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Benefits */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .benefit-card {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .benefit-card:active {
+            transform: scale(0.98);
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .benefit-card h3 {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+        }
+
+        .benefit-card p {
+            color: var(--text-gray);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            line-height: 1.5;
+        }
+
+        /* Steps */
+        .steps-container {
+            max-width: 900px;
+            margin: 2.5rem auto;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), transparent);
+            border: 1px solid rgba(0, 123, 255, 0.1);
+            border-radius: 16px;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .step-content h3 {
+            font-size: clamp(1.05rem, 3vw, 1.3rem);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .step-content p {
+            color: var(--text-gray);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            line-height: 1.6;
+        }
+
+        /* Features List */
+        .features-showcase {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.08), rgba(0, 123, 255, 0.03));
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            list-style: none;
+        }
+
+        .features-list li {
+            padding: 1.25rem;
+            background: rgba(0, 123, 255, 0.05);
+            border: 1px solid rgba(0, 123, 255, 0.15);
+            border-radius: 12px;
+            font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.25rem;
+            width: 26px;
+            height: 26px;
+            min-width: 26px;
+            background: rgba(0, 123, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .testimonial {
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 4rem;
+            color: rgba(0, 123, 255, 0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-avatar {
+            width: 55px;
+            height: 55px;
+            min-width: 55px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .testimonial-info h4 {
+            font-size: clamp(1rem, 3vw, 1.15rem);
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-info p {
+            color: var(--text-gray);
+            font-size: clamp(0.85rem, 2vw, 0.9rem);
+        }
+
+        .testimonial-rating {
+            color: var(--warning);
+            font-size: 1rem;
+            margin-top: 0.25rem;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-light);
+            line-height: 1.7;
+            font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Pricing */
+        .pricing-section {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), transparent);
+            padding: 3.5rem 1rem;
+        }
+
+        .urgency-timer {
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.1), rgba(255, 69, 0, 0.05));
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            padding: 1.25rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+
+        .timer-text {
+            color: var(--warning);
+            font-weight: 700;
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            margin-bottom: 0.75rem;
+        }
+
+        .timer-display {
+            font-size: clamp(1.75rem, 5vw, 2rem);
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 2px;
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.15), rgba(0, 123, 255, 0.05));
+            border: 2px solid var(--primary);
+            border-radius: 24px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 15px 50px rgba(0, 123, 255, 0.3);
+        }
+
+        .pricing-badge {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        .price-container {
+            margin: 2rem 0;
+        }
+
+        .discount-badge {
+            background: var(--success);
+            color: var(--white);
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: clamp(0.85rem, 2vw, 0.9rem);
+            margin-bottom: 1rem;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: var(--text-gray);
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            display: block;
+            margin-bottom: 0.5rem;
+            opacity: 0.6;
+        }
+
+        .new-price {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .price-description {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+        }
+
+        .guarantee-badge {
+            background: rgba(0, 208, 132, 0.1);
+            border: 1px solid rgba(0, 208, 132, 0.3);
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+        }
+
+        .guarantee-badge p {
+            color: var(--success);
+            font-weight: 600;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            margin: 0;
+        }
+
+        .trust-badges {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            font-weight: 600;
+        }
+
+        /* FAQ */
+        .faq-container {
+            max-width: 900px;
+            margin: 2.5rem auto;
+        }
+
+        .faq-item {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            font-weight: 700;
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            transition: background 0.3s;
+            min-height: 60px;
+        }
+
+        .faq-question:active {
+            background: rgba(0, 123, 255, 0.05);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.75rem;
+            color: var(--primary);
+            font-weight: 300;
+            transition: transform 0.3s;
+            flex-shrink: 0;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .faq-answer.active {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-gray);
+            line-height: 1.7;
+            font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+            z-index: 1000;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .whatsapp-float:active {
+            transform: scale(0.95);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(26, 26, 26, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 1rem 2rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover, .footer-links a:active {
+            color: var(--primary-light);
+        }
+
+        .copyright {
+            color: var(--text-gray);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            max-width: min(350px, calc(100vw - 40px));
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.hidden {
+            display: none;
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .notification-avatar {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .notification-content strong {
+            color: var(--primary-light);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .notification-content p {
+            margin: 0;
+            color: var(--text-gray);
+            font-size: clamp(0.85rem, 2vw, 0.9rem);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Tablet Breakpoint */
+        @media (min-width: 640px) {
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .trust-badges {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Desktop Breakpoint */
+        @media (min-width: 768px) {
+            html {
+                font-size: 18px;
+            }
+
+            section {
+                padding: 5rem 1rem;
+            }
+
+            nav {
+                display: flex;
+                position: static;
+                background: none;
+                flex-direction: row;
+                padding: 0;
+                border: none;
+            }
+
+            nav.active {
+                display: flex;
+                position: static;
+                background: none;
+                flex-direction: row;
+                padding: 0;
+                border: none;
+                animation: none;
+            }
+
+            nav a {
+                padding: 0;
+                font-size: 0.95rem;
+            }
+
+            .mobile-menu-btn {
+                display: none;
+            }
+
+            .cta-header {
+                display: inline-block;
+            }
+
+            .hero {
+                padding: 8rem 1rem 4rem;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .feature-item:hover {
+                transform: translateX(10px);
+                border-color: var(--primary);
+                box-shadow: 0 8px 30px rgba(0, 123, 255, 0.2);
+            }
+
+            .benefit-card:hover {
+                transform: translateY(-8px) scale(1.02);
+                border-color: var(--primary);
+                box-shadow: 0 15px 40px rgba(0, 123, 255, 0.25);
+            }
+
+            .testimonial:hover {
+                border-color: var(--primary);
+                transform: translateY(-5px);
+                box-shadow: 0 12px 40px rgba(0, 123, 255, 0.2);
+            }
+
+            .whatsapp-float:hover {
+                transform: scale(1.1);
+                box-shadow: 0 10px 30px rgba(37, 211, 102, 0.7);
+            }
+        }
+
+        /* Large Desktop */
+        @media (min-width: 1024px) {
+            .benefits-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .trust-badges {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Print */
+        @media print {
+            .whatsapp-float,
+            .notification,
+            header {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="#inicio" class="logo">UpComercce <span>João Layon</span></a>
+            <nav id="nav">
+                <a href="#inicio">Início</a>
+                <a href="#sobre">Sobre</a>
+                <a href="#recursos">Recursos</a>
+                <a href="#beneficios">Benefícios</a>
+                <a href="#depoimentos">Depoimentos</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contato">Contato</a>
+            </nav>
+            <a href="#oferta" class="cta-header">Quero meu sistema</a>
+            <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🚀 Sistema Profissional de E-commerce</div>
+            <div style="background: linear-gradient(135deg, var(--warning), #ff6b00); color: white; padding: 0.6rem 1.5rem; border-radius: 50px; font-weight: 800; font-size: clamp(0.85rem, 2.5vw, 1rem); margin-bottom: 1.5rem; display: inline-block; animation: pulse 2s infinite;">
+                ⚡ PROMOÇÃO: R$ 229,90/mês - Apenas 5 vagas!
+            </div>
+            <h1>
+                Tenha sua loja online completa — 
+                <span class="gradient-text">rápida, segura e pronta para vender!</span>
+            </h1>
+            <p class="subtitle">
+                Sistema profissional de e-commerce com painel administrativo completo, 
+                controle inteligente de estoque e faturamento 100% automatizado.
+            </p>
+            <div class="hero-cta-group">
+                <a href="https://wa.me/5531995281707?text=Ol%C3%A1%2C%20Jo%C3%A3o!%0AQuero%20garantir%20uma%20vaga%20por%20R%24%20229%2C90%2Fm%C3%AAs!" class="cta-primary">
+                    <span>🚀 Garantir Vaga por R$ 229,90/mês</span>
+                </a>
+                <a href="https://apresentacao-upcomercce.onrender.com/" target="_blank" rel="noopener noreferrer" class="cta-secondary">
+                    <span>📺 Ver Demonstração</span>
+                </a>
+            </div>
+            <div class="social-proof">
+                <div class="social-proof-avatars">
+                    <div class="social-proof-avatar">A</div>
+                    <div class="social-proof-avatar">M</div>
+                    <div class="social-proof-avatar">C</div>
+                    <div class="social-proof-avatar">J</div>
+                </div>
+                <p class="social-proof-text">
+                    <strong>+150 empreendedores</strong> já vendendo online
+                </p>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Vendas Automáticas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Seguro</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Produtos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="sobre">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Solução Completa</div>
+                <h2 class="section-title">O que é o UpComercce?</h2>
+                <p class="section-subtitle">
+                    Um sistema completo de vendas online, ideal para quem deseja vender perfumes, 
+                    roupas e acessórios com facilidade, controle total e um painel administrativo intuitivo.
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">✅</div>
+                    <div class="feature-content">
+                        <h3>Cadastro Completo</h3>
+                        <p>Sistema avançado de cadastro de clientes e produtos com validação inteligente</p>
+                    </div>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">🧾</div>
+                    <div class="feature-content">
+                        <h3>Controle Total</h3>
+                        <p>Gestão automática de estoque e faturamento com relatórios em tempo real</p>
+                    </div>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">📦</div>
+                    <div class="feature-content">
+                        <h3>Gestão de Pedidos</h3>
+                        <p>Acompanhe todos os pedidos e categorias em um painel unificado</p>
+                    </div>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">💳</div>
+                    <div class="feature-content">
+                        <h3>Checkout Inteligente</h3>
+                        <p>Sistema de pagamento automatizado e seguro com validação completa</p>
+                    </div>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">📈</div>
+                    <div class="feature-content">
+                        <h3>Relatórios Avançados</h3>
+                        <p>Painel completo de métricas e exportação de dados em múltiplos formatos</p>
+                    </div>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-content">
+                        <h3>Segurança Máxima</h3>
+                        <p>Proteção de dados de ponta com criptografia e backup automático</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mockup-container fade-in">
+                <div class="mockup-icon">💻📱</div>
+                <h3 style="font-size: clamp(1.3rem, 4vw, 1.8rem); margin-bottom: 1rem;">Painel Administrativo Profissional</h3>
+                <p style="color: var(--text-gray); font-size: clamp(0.95rem, 2.5vw, 1.1rem);">
+                    Interface moderna e intuitiva para desktop e mobile<br>
+                    Gerencie toda sua loja de qualquer lugar
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section id="beneficios">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Vantagens Exclusivas</div>
+                <h2 class="section-title">Por que escolher o UpComercce?</h2>
+                <p class="section-subtitle">
+                    Sistema profissional desenvolvido para maximizar suas vendas e otimizar sua gestão
+                </p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in">
+                    <span class="benefit-icon">🚀</span>
+                    <h3>Venda 24/7</h3>
+                    <p>Sua loja funcionando 24 horas por dia, 7 dias por semana, sem interrupções</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <span class="benefit-icon">📱</span>
+                    <h3>100% Responsivo</h3>
+                    <p>Design moderno que se adapta perfeitamente a celulares, tablets e desktops</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <span class="benefit-icon">🔐</span>
+                    <h3>Segurança Total</h3>
+                    <p>Proteção completa de dados e transações com tecnologia de ponta</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <span class="benefit-icon">⚙️</span>
+                    <h3>Automação Inteligente</h3>
+                    <p>Controle automático de estoque, lucros e notificações em tempo real</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="recursos">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Simples e Eficiente</div>
+                <h2 class="section-title">Como Funciona</h2>
+                <p class="section-subtitle">
+                    Em apenas 5 passos, sua loja online estará pronta para receber pedidos
+                </p>
+            </div>
+            <div class="steps-container">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Cadastre produtos e categorias</h3>
+                        <p>Adicione seus produtos com fotos profissionais, descrições detalhadas e organize por categorias inteligentes</p>
+                    </div>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Configure preços e estoque</h3>
+                        <p>Defina preços competitivos, controle quantidades em tempo real e gerencie variações de produtos</p>
+                    </div>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Divulgue sua loja</h3>
+                        <p>Compartilhe o link da sua loja nas redes sociais, WhatsApp e comece a atrair clientes</p>
+                    </div>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Receba pedidos automaticamente</h3>
+                        <p>Sistema processa pedidos em tempo real e notifica você instantaneamente</p>
+                    </div>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Acompanhe faturamento e relatórios</h3>
+                        <p>Visualize vendas, lucros e gere relatórios completos direto do painel administrativo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Features -->
+    <section>
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Tecnologia Avançada</div>
+                <h2 class="section-title">Recursos Premium</h2>
+                <p class="section-subtitle">
+                    Ferramentas profissionais que vão impulsionar suas vendas
+                </p>
+            </div>
+            <div class="features-showcase fade-in">
+                <ul class="features-list">
+                    <li>Login seguro com autenticação de dois fatores e recuperação de senha</li>
+                    <li>Upload otimizado de imagens de produtos em alta qualidade</li>
+                    <li>Painel de administração completo com dashboard em tempo real</li>
+                    <li>Exportação inteligente de relatórios em CSV, Excel e PDF</li>
+                    <li>Sistema avançado de cupons, descontos e filtros personalizados</li>
+                    <li>Logs administrativos detalhados e histórico completo de pedidos</li>
+                    <li>Notificações automáticas por email e WhatsApp</li>
+                    <li>Sistema de busca inteligente e categorização automática</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="depoimentos">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Histórias de Sucesso</div>
+                <h2 class="section-title">O que dizem nossos clientes</h2>
+                <p class="section-subtitle">
+                    Empreendedores que transformaram seus negócios com o UpComercce
+                </p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial fade-in">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">C</div>
+                        <div class="testimonial-info">
+                            <h4>Camila Santos</h4>
+                            <p>Rio de Janeiro - RJ</p>
+                            <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "Finalmente um sistema de loja completo e fácil de usar! Em 2 dias já estava vendendo. 
+                        O suporte do João é excepcional!"
+                    </p>
+                </div>
+                <div class="testimonial fade-in">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">T</div>
+                        <div class="testimonial-info">
+                            <h4>Thiago Oliveira</h4>
+                            <p>São Paulo - SP</p>
+                            <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "Controlei estoque e lucros em minutos. O painel é fantástico! 
+                        Minhas vendas triplicaram no primeiro mês."
+                    </p>
+                </div>
+                <div class="testimonial fade-in">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">A</div>
+                        <div class="testimonial-info">
+                            <h4>Ana Paula</h4>
+                            <p>Belo Horizonte - MG</p>
+                            <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "O painel é tão intuitivo que comecei a vender no mesmo dia. 
+                        Melhor investimento que já fiz para meu negócio!"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="oferta" class="pricing-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Oferta Limitada - 5 Vagas</div>
+                <h2 class="section-title">Assinatura Mensal com Desconto Exclusivo</h2>
+                <p class="section-subtitle">
+                    Apenas os 5 primeiros clientes garantem este preço promocional mensal
+                </p>
+            </div>
+            
+            <div class="urgency-timer fade-in">
+                <p class="timer-text">🔥 APENAS 5 VAGAS COM ESTE PREÇO MENSAL!</p>
+                <div style="display: flex; justify-content: center; gap: 0.5rem; margin: 1.5rem 0;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: var(--success); display: flex; align-items: center; justify-content: center; font-weight: 800;">1</div>
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: var(--success); display: flex; align-items: center; justify-content: center; font-weight: 800;">2</div>
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: var(--success); display: flex; align-items: center; justify-content: center; font-weight: 800;">3</div>
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: var(--warning); display: flex; align-items: center; justify-content: center; font-weight: 800;">4</div>
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: var(--warning); display: flex; align-items: center; justify-content: center; font-weight: 800;">5</div>
+                </div>
+                <p style="color: var(--text-gray); font-size: clamp(0.85rem, 2vw, 0.95rem); margin-top: 0.5rem;">
+                    <span style="color: var(--success);">■</span> Vagas preenchidas | 
+                    <span style="color: var(--warning);">■</span> Últimas vagas disponíveis
+                </p>
+            </div>
+
+            <div class="pricing-card fade-in">
+                <div class="pricing-badge">🚀 Assinatura Mensal</div>
+                <div class="price-container">
+                    <div class="discount-badge">🔥 PROMOÇÃO - PRIMEIROS 5 CLIENTES</div>
+                    <span class="old-price">De R$ 379,00/mês</span>
+                    <span class="new-price">R$ 229,90<span style="font-size: 0.4em; opacity: 0.8;">/mês</span></span>
+                </div>
+                <p class="price-description">
+                    <strong>Apenas para os 5 primeiros clientes:</strong> Sistema completo, assinatura mensal, atualizações gratuitas, 
+                    suporte dedicado do João Layon, treinamento completo e garantia de satisfação. 
+                    <strong style="color: var(--warning);">Após as 5 vagas, volta ao preço normal!</strong>
+                </p>
+                <a href="https://wa.me/5531995281707?text=Ol%C3%A1%2C%20Jo%C3%A3o!%0AQuero%20aproveitar%20a%20promo%C3%A7%C3%A3o%20de%20R%24%20229%2C90%2Fm%C3%AAs%20do%20UpComercce!" class="cta-primary">
+                    <span>💰 Garantir Vaga Promocional R$ 229,90/mês</span>
+                </a>
+                <div class="guarantee-badge">
+                    <p>✅ Garantia de 7 dias - Se não gostar, devolvemos 100% do seu dinheiro</p>
+                </div>
+                <div class="trust-badges">
+                    <div class="trust-badge">🛡️ Pagamento 100% Seguro</div>
+                    <div class="trust-badge">🤝 Suporte Prioritário Incluso</div>
+                    <div class="trust-badge">🔄 Atualizações Gratuitas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Tire suas Dúvidas</div>
+                <h2 class="section-title">Perguntas Frequentes</h2>
+                <p class="section-subtitle">
+                    Tudo o que você precisa saber sobre o UpComercce
+                </p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        É compatível com celular e computador?
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Sim! O UpComercce é 100% responsivo e funciona perfeitamente em smartphones, tablets e computadores. 
+                            Seus clientes podem comprar de qualquer dispositivo com total segurança e facilidade.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        Como funciona a assinatura mensal?
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            É uma assinatura mensal de R$ 229,90 (preço promocional para os 5 primeiros clientes). 
+                            Você recebe o sistema completo, suporte prioritário, atualizações gratuitas e treinamento. 
+                            Após a promoção, o valor volta para R$ 379,00/mês.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        Posso cadastrar quantos produtos quiser?
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Sim! Não há limite de produtos. Você pode cadastrar perfumes, roupas, acessórios e 
+                            quantos itens desejar. O sistema suporta catálogos ilimitados.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        O pagamento e os dados são seguros?
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Totalmente seguro! O sistema utiliza criptografia de ponta, certificado SSL e 
+                            as melhores práticas de segurança para proteger todos os dados de clientes e transações.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        Recebo suporte após a compra?
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Sim! Você terá suporte prioritário e dedicado do João Layon via WhatsApp. 
+                            Ajuda na instalação, configuração e qualquer dúvida que tiver. Estamos aqui para o seu sucesso!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section id="contato" style="background: linear-gradient(135deg, rgba(0, 123, 255, 0.08), transparent);">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Último Passo</div>
+                <h2 class="section-title">Pronto para Transformar seu Negócio?</h2>
+                <p class="section-subtitle">
+                    Fale diretamente com João Layon e tire todas as suas dúvidas
+                </p>
+            </div>
+            <div style="text-align: center;">
+                <a href="https://wa.me/5531995281707?text=Ol%C3%A1%2C%20Jo%C3%A3o!%0AQuero%20garantir%20uma%20das%205%20vagas%20promocionais%20por%20R%24%20229%2C90%2Fm%C3%AAs!" class="cta-primary fade-in">
+                    <span>💬 Garantir Minha Vaga Agora</span>
+                </a>
+                <div class="social-proof" style="margin-top: 2rem;">
+                    <p class="social-proof-text" style="font-size: clamp(0.95rem, 2.5vw, 1.1rem);">
+                        ⚡ <strong>Restam poucas vagas</strong> | Apenas 5 clientes com este preço
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Termos de Uso</a>
+                <a href="#">Política de Privacidade</a>
+                <a href="#">Central de Ajuda</a>
+                <a href="https://wa.me/5531995281707">Suporte</a>
+            </div>
+            <p class="copyright">
+                © 2025 UpComercce - Sistema E-commerce Profissional | Desenvolvido por <strong style="color: var(--primary);">João Layon</strong>
+            </p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/5531995281707?text=Ol%C3%A1%2C%20Jo%C3%A3o!%0AQuero%20saber%20mais%20sobre%20o%20UpComercce!" class="whatsapp-float" aria-label="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+    </a>
+
+    <!-- Notification -->
+    <div id="notification" class="notification hidden">
+        <div class="notification-header">
+            <div class="notification-avatar" id="notifAvatar"></div>
+            <div class="notification-content">
+                <strong id="notifName"></strong>
+                <p id="notifText"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu
+        const menuBtn = document.getElementById('menuBtn');
+        const nav = document.getElementById('nav');
+        
+        menuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            menuBtn.textContent = nav.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Close menu on link click
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                menuBtn.textContent = '☰';
+            });
+        });
+
+        // FAQ
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const answer = q.nextElementSibling;
+                const isActive = q.classList.contains('active');
+                
+                document.querySelectorAll('.faq-question').forEach(x => x.classList.remove('active'));
+                document.querySelectorAll('.faq-answer').forEach(x => x.classList.remove('active'));
+                
+                if (!isActive) {
+                    q.classList.add('active');
+                    answer.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Notifications
+        const notifications = [
+            { name: 'André Silva', loc: 'SP', avatar: 'A', text: 'acabou de adquirir o UpComercce!' },
+            { name: 'Mariana Costa', loc: 'RJ', avatar: 'M', text: 'lançou sua loja agora!' },
+            { name: 'Carlos Lima', loc: 'MG', avatar: 'C', text: 'fez sua primeira venda!' },
+            { name: 'Juliana Santos', loc: 'PR', avatar: 'J', text: 'começou a vender online!' },
+            { name: 'Roberto Alves', loc: 'BA', avatar: 'R', text: 'adquiriu o sistema!' },
+            { name: 'Fernanda Souza', loc: 'RS', avatar: 'F', text: 'está vendendo 24/7!' }
+        ];
+
+        let currentNotif = 0;
+
+        function showNotif() {
+            const notif = document.getElementById('notification');
+            const data = notifications[currentNotif];
+            
+            document.getElementById('notifName').textContent = `${data.name} (${data.loc})`;
+            document.getElementById('notifText').textContent = data.text;
+            document.getElementById('notifAvatar').textContent = data.avatar;
+            
+            notif.classList.remove('hidden');
+            setTimeout(() => notif.classList.add('hidden'), 6000);
+            
+            currentNotif = (currentNotif + 1) % notifications.length;
+        }
+
+        setTimeout(() => {
+            showNotif();
+            setInterval(showNotif, 10000);
+        }, 4000);
+
+        // Countdown
+        function updateCountdown() {
+            const now = new Date();
+            const midnight = new Date(now);
+            midnight.setHours(24, 0, 0, 0);
+            const diff = midnight - now;
+            
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            
+            const el = document.getElementById('countdown');
+            if (el) {
+                el.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
